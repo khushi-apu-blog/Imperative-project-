@@ -69,4 +69,68 @@ void link_parents(Person *child, Person *father, Person *mother)
         child->mother = mother;
     }
 }
+void print_family_relationships(const Person *me)
+{
+    if (me == NULL) {
+        printf("Family tree is empty.\n");
+        return;
+    }
+
+    printf("\n=== FAMILY TREE RELATIONSHIPS ===\n\n");
+    printf("1. YOURSELF:\n");
+    printf("   - Name: %s | Age: %d\n\n", me->name, me->age);
+
+    printf("2. PARENTS:\n");
+    if (me->father != NULL) {
+        printf("   - Father: %s | Age: %d\n", me->father->name, me->father->age);
+    } else {
+        printf("   - Father: Unknown\n");
+    }
+
+    if (me->mother != NULL) {
+        printf("   - Mother: %s | Age: %d\n\n", me->mother->name, me->mother->age);
+    } else {
+        printf("   - Mother: Unknown\n\n");
+    }
+
+    printf("3. PATERNAL GRANDPARENTS (via Father's relation):\n");
+    if (me->father != NULL && me->father->father != NULL) {
+        printf("   - Grandfather: %s | Age: %d\n",
+               me->father->father->name, me->father->father->age);
+    } else {
+        printf("   - Grandfather: Unknown\n");
+    }
+
+    if (me->father != NULL && me->father->mother != NULL) {
+        printf("   - Grandmother: %s | Age: %d\n\n",
+               me->father->mother->name, me->father->mother->age);
+    } else {
+        printf("   - Grandmother: Unknown\n\n");
+    }
+
+    printf("4. MATERNAL GRANDPARENTS (via Mother's relation):\n");
+    if (me->mother != NULL && me->mother->father != NULL) {
+        printf("   - Grandfather: %s | Age: %d\n",
+               me->mother->father->name, me->mother->father->age);
+    } else {
+        printf("   - Grandfather: Unknown\n");
+    }
+
+    if (me->mother != NULL && me->mother->mother != NULL) {
+        printf("   - Grandmother: %s | Age: %d\n",
+               me->mother->mother->name, me->mother->mother->age);
+    } else {
+        printf("   - Grandmother: Unknown\n");
+    }
+}
+void free_family_tree(Person *people[], int count)
+{
+    int i;
+
+    /* Free each allocated Person exactly once. */
+    for (i = 0; i < count; i++) {
+        free(people[i]);
+        people[i] = NULL;
+    }
+}
 
