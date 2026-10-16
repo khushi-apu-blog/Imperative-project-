@@ -9,6 +9,7 @@ typedef struct Person {
     struct Person *mother;
 } Person;
 
+/* Function prototypes */
 Person *create_person(const char *name, int age);
 void read_person_info(const char *role, char *name_out, int *age_out);
 void link_parents(Person *child, Person *father, Person *mother);
@@ -74,6 +75,7 @@ void link_parents(Person *child, Person *father, Person *mother)
         child->mother = mother;
     }
 }
+
 void print_family_relationships(const Person *me)
 {
     if (me == NULL) {
@@ -128,15 +130,7 @@ void print_family_relationships(const Person *me)
         printf("   - Grandmother: Unknown\n");
     }
 }
-void free_family_tree(Person *people[], int count)
-{
-    int i;
 
-    for (i = 0; i < count; i++) {
-        free(people[i]);
-        people[i] = NULL;
-    }
-}
 void print_tree_visual(const Person *root, int level)
 {
     printf("\n===== VISUAL FAMILY TREE =====\n");
@@ -161,6 +155,19 @@ void print_tree_visual(const Person *root, int level)
     printf("    |-- Maternal Grandmother: %s (Age: %d)\n",
            root->mother->mother->name, root->mother->mother->age);
 }
+
+
+void free_family_tree(Person *people[], int count)
+{
+    int i;
+
+    /* Free each allocated Person exactly once. */
+    for (i = 0; i < count; i++) {
+        free(people[i]);
+        people[i] = NULL;
+    }
+}
+
 int main(void)
 {
     char name[7][50];
@@ -190,11 +197,13 @@ int main(void)
     link_parents(people[6], people[4], people[5]);
 
     print_family_relationships(people[6]);
-    
+    print_tree_visual(people[6], 0);
+
     free_family_tree(people, 7);
 
-    print_tree_visual(people[6], 0);
-    
     return 0;
 }
+
+
+
 
