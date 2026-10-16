@@ -9,7 +9,7 @@ typedef struct Person {
     struct Person *mother;
 } Person;
 
-/* Function prototypes */
+
 Person *create_person(const char *name, int age);
 void read_person_info(const char *role, char *name_out, int *age_out);
 void link_parents(Person *child, Person *father, Person *mother);
@@ -161,7 +161,6 @@ void free_family_tree(Person *people[], int count)
 {
     int i;
 
-    /* Free each allocated Person exactly once. */
     for (i = 0; i < count; i++) {
         free(people[i]);
         people[i] = NULL;
